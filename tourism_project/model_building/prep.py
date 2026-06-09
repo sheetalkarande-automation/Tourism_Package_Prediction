@@ -14,7 +14,7 @@ from huggingface_hub import login, HfApi
 api = HfApi(token=os.getenv("HF_TOKEN"))
 
 # Define the path to the dataset registered on the Hugging Face dataset space
-DATASET_PATH = "hf://datasets/sheetalkarande/Tourism-Package-Prediction/tourism.csv"
+DATASET_PATH = "hf://datasets/sheetalkarande/tourism-package-model/tourism.csv"
 df = pd.read_csv(DATASET_PATH)
 print("Dataset loaded successfully.")
 print("Initial shape:", df.shape)
