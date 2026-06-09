@@ -5,8 +5,6 @@ import sklearn
 import os
 # for data preprocessing and pipeline creation
 from sklearn.model_selection import train_test_split
-# for converting text data in to numerical representation
-from sklearn.preprocessing import LabelEncoder
 # for hugging face space authentication to upload files
 from huggingface_hub import login, HfApi
 
@@ -41,14 +39,11 @@ for col in df.columns:
     else:
         df[col] = df[col].fillna(df[col].median())
 
-# ----------------------- Encoding -----------------------
-
-# Encode all categorical (object) columns into numerical representations
-label_encoder = LabelEncoder()
-categorical_cols = df.select_dtypes(include=['object']).columns.tolist()
-for col in categorical_cols:
-    df[col] = label_encoder.fit_transform(df[col])
-print("Encoded categorical columns:", categorical_cols)
+# NOTE: We intentionally do NOT label-encode the categorical columns here.
+# They are kept as their original string values so that the OneHotEncoder
+# inside the training pipeline (train.py) can learn the real category names.
+# This keeps training and the Streamlit app consistent, because the app also
+# sends raw strings (e.g. "Salaried") at prediction time.
 
 # Define the target variable
 target_col = 'ProdTaken'
